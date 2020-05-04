@@ -1,0 +1,39 @@
+main: com.altacraft.randomwelcome.RandomWelcome
+name: RandomWelcome
+version: 0.0.1
+author: Levi Muniz
+description: Welcome new players to the server with a random greeting message!
+commands:
+  randomwelcome:
+    description: RandomWelcome commands
+    usage: "Usage: /<command> [subcommand]"
+    aliases: rw
+    permission: randomwelcome
+permissions:
+  randomwelcome:
+    description: Allows use of /rw subcommands
+    default: true
+  randomwelcome.welcome:
+    description: Allows players to be welcomed
+    default: true
+  randomwelcome.welcome.others:
+    description: Allows players see other's welcome messages
+    default: true
+  randomwelcome.mute:
+    description: Allows use of /rw mute
+    default: true
+  randomwelcome.unmute:
+    description: Allows use of /rw unmute
+    default: true
+  randomwelcome.enable:
+    description: Allows use of /rw enable
+    default: op
+  randomwelcome.disable:
+    description: Allows use of /rw disable
+    default: op
+  randomwelcome.reload:
+    description: Allows use of /rw reload
+    default: op
+  randomwelcome.*:
+    description: Allows all permissions
+    default: op

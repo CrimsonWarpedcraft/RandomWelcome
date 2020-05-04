@@ -1,0 +1,31 @@
+plugins {
+    id 'com.github.johnrengelman.shadow' version '5.2.0'
+    id 'java'
+}
+
+apply plugin: "com.github.johnrengelman.shadow"
+
+shadowJar {
+    relocate 'io.papermc.lib', 'com.altacraft.randomwelcome.paperlib'
+}
+
+group 'com.altacraft'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    maven {
+        name 'papermc'
+        url 'https://papermc.io/repo/repository/maven-public/'
+    }
+}
+
+dependencies {
+    implementation "io.papermc:paperlib:1.0.2"
+    implementation group: 'com.destroystokyo.paper', name: 'paper-api', version: '1.15.2-R0.1-SNAPSHOT'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}

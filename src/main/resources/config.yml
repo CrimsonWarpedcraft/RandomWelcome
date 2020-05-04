@@ -1,0 +1,16 @@
+# Choose whether to welcome only newcomers, or all players on join
+newcomers_only: true
+
+# Choose whether to broadcast the message
+broadcast_publicly: true
+
+# Prefix for welcome messages, great for formatting codes
+prefix: ""
+
+# Added after welcome message when newcomers join
+newcomer_message: "Welcome them to the server!"
+
+# List of possible welcome messages
+# Use %player% for the player's name
+messages:
+  - "Howdy Doody, %player%! Welcome to the server!"
