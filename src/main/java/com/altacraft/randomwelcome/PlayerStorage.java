@@ -65,6 +65,8 @@ class PlayerStorage implements Listener {
 
         if (isNewcomer(e.getPlayer())) {
             setMuted(e.getPlayer(), false);
+        } else {
+            onlinePlayerSettings.put(e.getPlayer(), isMuted(e.getPlayer()));
         }
     }
 
