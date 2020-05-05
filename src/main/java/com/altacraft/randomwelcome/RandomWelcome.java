@@ -5,8 +5,11 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitScheduler;
 
 import java.io.File;
+import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 import java.util.logging.Logger;
@@ -55,12 +58,16 @@ public class RandomWelcome extends JavaPlugin {
     }
 
     public static void greet(Player player) {
+        greet(player, getGreeting(player));
+    }
+
+    public static void greet(Player player, String message) {
         if (getMessagesEnabled() && canGreet(player)) {
             String[] messages;
-            String rawPrefix = plugin.getConfig().getString("prefix");
-            String prefix = ChatColor.translateAlternateColorCodes('&', rawPrefix);
-            String message = prefix + getGreeting(player);
-            String newcomerMessage = plugin.getConfig().getString("newcomer_message");
+            String prefix = plugin.getConfig().getString("prefix");
+            String newcomerMessage = ChatColor.translateAlternateColorCodes('&',
+                    prefix + plugin.getConfig().getString("newcomer_message"))
+                    .replaceAll("%player%", player.getDisplayName());
 
             if (!newcomerMessage.equals("") && isNewcomer(player)) {
                 messages = new String[]{message, prefix + newcomerMessage};
@@ -72,16 +79,27 @@ public class RandomWelcome extends JavaPlugin {
                 player.sendMessage(messages);
             }
 
-            if (plugin.getConfig().getBoolean("broadcast_publicly")) {
-                for (Player p : plugin.getServer().getOnlinePlayers()) {
-                    if (p == player) continue;
+            BukkitScheduler scheduler = plugin.getServer().getScheduler();
 
-                    if ((p.hasPermission("randomwelcome.*")
-                            || p.hasPermission("randomwelcome.welcome.others"))
-                            && !isMuted(p)) {
-                        p.sendMessage(messages);
+            if (plugin.getConfig().getBoolean("broadcast_publicly")) {
+                Collection<? extends Player> players =  plugin.getServer().getOnlinePlayers();
+
+                Runnable broadcast = () -> {
+                    for (Player p : players) {
+                        if (p != player && (p.hasPermission("randomwelcome.*")
+                                || p.hasPermission("randomwelcome.welcome.others")) && !isMuted(p)) {
+                            BukkitRunnable send = new BukkitRunnable() {
+                                @Override
+                                public void run() {
+                                    p.sendMessage(messages);
+                                }
+                            };
+                            send.runTask(plugin);
+                        }
                     }
-                }
+                };
+
+                scheduler.runTaskAsynchronously(plugin, broadcast);
             }
         }
     }
@@ -98,12 +116,21 @@ public class RandomWelcome extends JavaPlugin {
         }
     }
 
+    public static String getGreeting() {
+        return getGreeting("");
+    }
+
     public static String getGreeting(Player player) {
+        return getGreeting(player.getDisplayName());
+    }
+
+    public static String getGreeting(String player) {
         Random r = new Random();
         List<String> possibleMessages = plugin.getConfig().getStringList("messages");
-        String randomMessage = possibleMessages.get(r.nextInt(possibleMessages.size()))
-                .replaceAll("%player%", player.getDisplayName());
-        return randomMessage;
+        String prefix = plugin.getConfig().getString("prefix");
+        String randomMessage = possibleMessages.get(r.nextInt(possibleMessages.size()));
+        String fullMessage = prefix + randomMessage.replaceAll("%player%", player);
+        return ChatColor.translateAlternateColorCodes('&', fullMessage);
     }
 
     public static boolean isNewcomer(Player player) {
