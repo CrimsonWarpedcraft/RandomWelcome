@@ -3,6 +3,7 @@ package com.altacraft.randomwelcome;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -58,7 +59,7 @@ class PlayerStorage implements Listener {
         return YamlConfiguration.loadConfiguration(playerFile);
     }
 
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onPlayerLogin(PlayerJoinEvent e) {
         RandomWelcome.greet(e.getPlayer());
 
@@ -67,7 +68,7 @@ class PlayerStorage implements Listener {
         }
     }
 
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onPlayerQuitEvent(PlayerQuitEvent e) {
         onlinePlayerSettings.remove(e.getPlayer());
     }
