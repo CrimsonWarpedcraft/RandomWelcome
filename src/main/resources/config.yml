@@ -4,6 +4,9 @@ newcomers_only: true
 # Choose whether to broadcast the message
 broadcast_publicly: true
 
+# Choose whether or not to enable the vanilla join message
+player_joined_message: true
+
 # Prefix for welcome messages, great for formatting codes
 prefix: ""
 

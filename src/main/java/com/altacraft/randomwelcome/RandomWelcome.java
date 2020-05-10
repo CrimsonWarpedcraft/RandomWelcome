@@ -145,6 +145,10 @@ public class RandomWelcome extends JavaPlugin {
         plugin.ps.setMuted(player, b);
     }
 
+    public static boolean getJoinMessageEnabled() {
+        return plugin.getConfig().getBoolean("player_joined_message");
+    }
+
     public static void reload() {
         plugin.reloadConfig();
     }

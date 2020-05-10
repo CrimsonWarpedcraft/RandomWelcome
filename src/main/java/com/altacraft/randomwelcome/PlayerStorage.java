@@ -68,6 +68,10 @@ class PlayerStorage implements Listener {
         } else {
             onlinePlayerSettings.put(e.getPlayer(), isMuted(e.getPlayer()));
         }
+
+        if (!RandomWelcome.getJoinMessageEnabled()) {
+            e.setJoinMessage(null);
+        }
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
