@@ -10,7 +10,7 @@ shadowJar {
 }
 
 group 'com.altacraft'
-version '0.2.0'
+version '0.2.1'
 
 repositories {
     mavenCentral()
@@ -21,7 +21,7 @@ repositories {
 }
 
 dependencies {
-    implementation "io.papermc:paperlib:1.0.2"
+    implementation "io.papermc:paperlib:1.0.4"
     implementation group: 'com.destroystokyo.paper', name: 'paper-api', version: '1.15.2-R0.1-SNAPSHOT'
 }
 

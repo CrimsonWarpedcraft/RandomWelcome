@@ -70,7 +70,7 @@ public class RandomWelcome extends JavaPlugin {
                     .replaceAll("%player%", player.getDisplayName());
 
             if (!newcomerMessage.equals("") && isNewcomer(player)) {
-                messages = new String[]{message, prefix + newcomerMessage};
+                messages = new String[]{message, newcomerMessage};
             } else {
                 messages = new String[]{message};
             }
