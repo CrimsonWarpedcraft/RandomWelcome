@@ -2,7 +2,7 @@
 
 Simple [PaperMC](https://papermc.io/)/[Spigot](https://www.spigotmc.org/wiki/about-spigot/) Minecraft server plugin to welcome players to a server by sending them a random message of your choosing!
 
-I created this plugin to teach myself how to develop a [PaperAPI](https://github.com/PaperMC/Paper) Minecraft server plugin and compile it using the [Gradle](https://gradle.org/) build tool.
+I created this plugin to teach myself how to develop a [PaperAPI](https://github.com/PaperMC/Paper) Minecraft server plugin and compile it using the [Gradle](https://gradle.org/) build tool. Additionally, I use [GitHub Actions](https://github.com/features/actions) to build artifacts directly from git.
 
 ## Simple and Stable
 
