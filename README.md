@@ -56,3 +56,10 @@ messages:
 ## Installation
 
 Simply drop into your server's plugin folder, and we'll generate your config for you. Restart your server or run `/rw reload` to load any changes you make or messages you add!
+
+## Building From Source
+
+If you're interested in contributing, you can build with [Gradle](https://gradle.org/) using the following command.
+```bash
+gradlew shadowJar
+```
