@@ -26,6 +26,7 @@ Below is a small table to help explain all of the RandomWelcome commands and per
 | /rw reload | randomwelcome.reload | Admin command to reload plugin config |
 | | randomwelcome.welcome | Permission node to allow the player to be welcomed |
 | | randomwelcome.welcome.others | Permission node to allow the player to see other player's being welcomed |
+| | randomwelcome.* | Permission node to grant all other permissions |
 
 ### Configuration
 

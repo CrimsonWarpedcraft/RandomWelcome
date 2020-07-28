@@ -1,6 +1,7 @@
-main: com.altacraft.randomwelcome.RandomWelcome
+main: com.snowypeaksystems.randomwelcome.RandomWelcome
 name: RandomWelcome
-version: 0.2.0
+version: 0.3.0
+api-version: "1.16"
 author: Levi Muniz
 description: Welcome new players to the server with a random greeting message!
 commands:
@@ -35,5 +36,14 @@ permissions:
     description: Allows use of /rw reload
     default: op
   randomwelcome.*:
-    description: Allows all permissions
-    default: op
+    description: Grants all other permissions
+    default: false
+    children:
+      randomwelcome: true
+      randomwelcome.welcome: true
+      randomwelcome.welcome.others: true
+      randomwelcome.mute: true
+      randomwelcome.unmute: true
+      randomwelcome.enable: true
+      randomwelcome.disable: true
+      randomwelcome.reload: true

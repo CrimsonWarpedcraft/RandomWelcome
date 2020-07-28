@@ -6,11 +6,11 @@ plugins {
 apply plugin: "com.github.johnrengelman.shadow"
 
 shadowJar {
-    relocate 'io.papermc.lib', 'com.altacraft.randomwelcome.paperlib'
+    relocate 'io.papermc.lib', 'com.snowypeaksystems.randomwelcome.paperlib'
 }
 
-group 'com.altacraft'
-version '0.2.1'
+group 'com.snowypeaksystems'
+version '0.3.0'
 
 repositories {
     mavenCentral()
@@ -21,8 +21,8 @@ repositories {
 }
 
 dependencies {
-    implementation "io.papermc:paperlib:1.0.4"
-    implementation group: 'com.destroystokyo.paper', name: 'paper-api', version: '1.15.2-R0.1-SNAPSHOT'
+    implementation "io.papermc:paperlib:1.0.5"
+    implementation group: 'com.destroystokyo.paper', name: 'paper-api', version: '1.16.1-R0.1-SNAPSHOT'
 }
 
 java {
