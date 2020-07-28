@@ -1,4 +1,4 @@
-package com.altacraft.randomwelcome;
+package com.snowypeaksystems.randomwelcome;
 
 import io.papermc.lib.PaperLib;
 import org.bukkit.ChatColor;
@@ -6,7 +6,6 @@ import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitScheduler;
 
 import java.io.File;
 import java.util.Collection;
@@ -58,36 +57,35 @@ public class RandomWelcome extends JavaPlugin {
     }
 
     public static void greet(Player player) {
-        greet(player, getGreeting(player));
+        greet(player, getFormattedRandomGreeting());
     }
 
     public static void greet(Player player, String message) {
         if (getMessagesEnabled() && canGreet(player)) {
             String[] messages;
-            String prefix = plugin.getConfig().getString("prefix");
-            String newcomerMessage = ChatColor.translateAlternateColorCodes('&',
-                    prefix + plugin.getConfig().getString("newcomer_message"))
-                    .replaceAll("%player%", player.getDisplayName());
 
-            if (!newcomerMessage.equals("") && isNewcomer(player)) {
-                messages = new String[]{message, newcomerMessage};
+            String rawNewcomerMessage = plugin.getConfig().getString("newcomer_message", "");
+            if (isNewcomer(player) && !rawNewcomerMessage.isEmpty()) {
+                messages = new String[2];
+                String formattedNewcomerMessage = ChatColor.translateAlternateColorCodes('&', rawNewcomerMessage);
+                messages[1] = replaceName(formattedNewcomerMessage, player.getDisplayName(), getNamePrefix());
             } else {
-                messages = new String[]{message};
+                messages = new String[1];
             }
+
+            messages[0] = replaceName(message, player.getDisplayName(), getNamePrefix());
 
             if (!isMuted(player)) {
                 player.sendMessage(messages);
             }
 
-            BukkitScheduler scheduler = plugin.getServer().getScheduler();
 
-            if (plugin.getConfig().getBoolean("broadcast_publicly")) {
+            if (plugin.getConfig().getBoolean("broadcast_publicly", true)) {
                 Collection<? extends Player> players =  plugin.getServer().getOnlinePlayers();
 
                 Runnable broadcast = () -> {
                     for (Player p : players) {
-                        if (p != player && (p.hasPermission("randomwelcome.*")
-                                || p.hasPermission("randomwelcome.welcome.others")) && !isMuted(p)) {
+                        if (p != player && p.hasPermission("randomwelcome.welcome.others") && !isMuted(p)) {
                             BukkitRunnable send = new BukkitRunnable() {
                                 @Override
                                 public void run() {
@@ -99,14 +97,14 @@ public class RandomWelcome extends JavaPlugin {
                     }
                 };
 
-                scheduler.runTaskAsynchronously(plugin, broadcast);
+                plugin.getServer().getScheduler().runTaskAsynchronously(plugin, broadcast);
             }
         }
     }
 
     public static boolean canGreet(Player player) {
-        if (player.hasPermission("randomwelcome.*") || player.hasPermission("randomwelcome.welcome")) {
-            if (plugin.getConfig().getBoolean("newcomers_only")) {
+        if (player.hasPermission("randomwelcome.welcome")) {
+            if (plugin.getConfig().getBoolean("newcomers_only", false)) {
                 return isNewcomer(player);
             } else {
                 return true;
@@ -114,23 +112,6 @@ public class RandomWelcome extends JavaPlugin {
         } else {
             return false;
         }
-    }
-
-    public static String getGreeting() {
-        return getGreeting("");
-    }
-
-    public static String getGreeting(Player player) {
-        return getGreeting(player.getDisplayName());
-    }
-
-    public static String getGreeting(String player) {
-        Random r = new Random();
-        List<String> possibleMessages = plugin.getConfig().getStringList("messages");
-        String prefix = plugin.getConfig().getString("prefix");
-        String randomMessage = possibleMessages.get(r.nextInt(possibleMessages.size()));
-        String fullMessage = prefix + randomMessage.replaceAll("%player%", player);
-        return ChatColor.translateAlternateColorCodes('&', fullMessage);
     }
 
     public static boolean isNewcomer(Player player) {
@@ -145,13 +126,33 @@ public class RandomWelcome extends JavaPlugin {
         plugin.ps.setMuted(player, b);
     }
 
-    public static boolean getJoinMessageEnabled() {
-        return plugin.getConfig().getBoolean("player_joined_message");
+    public static boolean getVanilaJoinMessageEnabled() {
+        return plugin.getConfig().getBoolean("vanilla_join_message", false);
+    }
+
+    public static String getNamePrefix() {
+        return plugin.getConfig().getString("player_name_prefix", "");
+    }
+
+    public static String getFormattedRandomGreeting() {
+        return ChatColor.translateAlternateColorCodes('&', getRandomGreeting());
+    }
+
+    public static String getRandomGreeting() {
+        Random r = new Random();
+        List<String> possibleMessages = plugin.getConfig().getStringList("messages");
+        return possibleMessages.get(r.nextInt(possibleMessages.size()));
+    }
+
+    public static String replaceName(String message, String name, String namePrefix) {
+        String lastColors = ChatColor.getLastColors(message);
+        String formattedPlayername = ChatColor.translateAlternateColorCodes(
+                '&', namePrefix + name + "&r") + lastColors;
+
+        return message.replaceAll("%player%", formattedPlayername);
     }
 
     public static void reload() {
         plugin.reloadConfig();
     }
-
-
 }

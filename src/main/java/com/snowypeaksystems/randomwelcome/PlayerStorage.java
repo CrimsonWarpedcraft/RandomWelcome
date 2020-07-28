@@ -1,4 +1,4 @@
-package com.altacraft.randomwelcome;
+package com.snowypeaksystems.randomwelcome;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -33,7 +33,7 @@ class PlayerStorage implements Listener {
     public boolean isMuted(Player player) {
         if (onlinePlayerSettings.containsKey(player)) return onlinePlayerSettings.get(player);
 
-        return loadPlayerConfig(player).getBoolean("muted");
+        return loadPlayerConfig(player).getBoolean("muted", false);
     }
 
     public void setMuted(Player player, boolean muted) {
@@ -59,7 +59,7 @@ class PlayerStorage implements Listener {
         return YamlConfiguration.loadConfiguration(playerFile);
     }
 
-    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onPlayerLogin(PlayerJoinEvent e) {
         RandomWelcome.greet(e.getPlayer());
 
@@ -69,12 +69,12 @@ class PlayerStorage implements Listener {
             onlinePlayerSettings.put(e.getPlayer(), isMuted(e.getPlayer()));
         }
 
-        if (!RandomWelcome.getJoinMessageEnabled()) {
+        if (!RandomWelcome.getVanilaJoinMessageEnabled()) {
             e.setJoinMessage(null);
         }
     }
 
-    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onPlayerQuitEvent(PlayerQuitEvent e) {
         onlinePlayerSettings.remove(e.getPlayer());
     }

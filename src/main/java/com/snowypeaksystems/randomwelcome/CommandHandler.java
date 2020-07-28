@@ -1,4 +1,4 @@
-package com.altacraft.randomwelcome;
+package com.snowypeaksystems.randomwelcome;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -34,26 +34,23 @@ public class CommandHandler implements TabExecutor {
             if (args.length == 1) {
                 switch (args[0]) {
                     case "enable":
-                        if (sender.hasPermission("randomwelcome.*")
-                                || sender.hasPermission("randomwelcome.enable")) {
+                        if (sender.hasPermission("randomwelcome.enable")) {
                             RandomWelcome.setMessagesEnabled(true);
                             sender.sendMessage("Enabled random welcome messages!");
                         } else {
-                            sender.sendMessage("Sorry, you're not allowed!");
+                            sender.sendMessage("Lacking permission randomwelcome.enable");
                         }
                         break;
                     case "disable":
-                        if (sender.hasPermission("randomwelcome.*")
-                                || sender.hasPermission("randomwelcome.disable")) {
+                        if (sender.hasPermission("randomwelcome.disable")) {
                             RandomWelcome.setMessagesEnabled(false);
                             sender.sendMessage("Disabled random welcome messages!");
                         } else {
-                            sender.sendMessage("Sorry, you're not allowed!");
+                            sender.sendMessage("Lacking permission randomwelcome.disable");
                         }
                         break;
                     case "mute":
-                        if (sender.hasPermission("randomwelcome.*")
-                                || sender.hasPermission("randomwelcome.mute")) {
+                        if (sender.hasPermission("randomwelcome.mute")) {
                             if (sender instanceof Player) {
                                 RandomWelcome.setMuted((Player) sender, true);
                                 sender.sendMessage("Muted random welcome messages!");
@@ -61,12 +58,11 @@ public class CommandHandler implements TabExecutor {
                                 sender.sendMessage("This command can only be run by in-game players!");
                             }
                         } else {
-                            sender.sendMessage("Sorry, you're not allowed!");
+                            sender.sendMessage("Lacking permission randomwelcome.mute");
                         }
                         break;
                     case "unmute":
-                        if (sender.hasPermission("randomwelcome.*")
-                                || sender.hasPermission("randomwelcome.unmute")) {
+                        if (sender.hasPermission("randomwelcome.unmute")) {
                             if (sender instanceof Player) {
                                 RandomWelcome.setMuted((Player) sender, false);
                                 sender.sendMessage("Unmuted random welcome messages!");
@@ -74,16 +70,15 @@ public class CommandHandler implements TabExecutor {
                                 sender.sendMessage("This command can only be run by in-game players!");
                             }
                         } else {
-                            sender.sendMessage("Sorry, you're not allowed!");
+                            sender.sendMessage("Lacking permission randomwelcome.unmute");
                         }
                         break;
                     case "reload":
-                        if (sender.hasPermission("randomwelcome.*")
-                                || sender.hasPermission("randomwelcome.reload")) {
+                        if (sender.hasPermission("randomwelcome.reload")) {
                             RandomWelcome.reload();
                             sender.sendMessage("Config reloaded!");
                         } else {
-                            sender.sendMessage("Sorry, you're not allowed!");
+                            sender.sendMessage("Lacking permission randomwelcome.reload");
                         }
                         break;
                     default:
