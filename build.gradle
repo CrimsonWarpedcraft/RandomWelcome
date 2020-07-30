@@ -1,12 +1,6 @@
 plugins {
-    id 'com.github.johnrengelman.shadow' version '5.2.0'
     id 'java'
-}
-
-apply plugin: "com.github.johnrengelman.shadow"
-
-shadowJar {
-    relocate 'io.papermc.lib', 'com.snowypeaksystems.randomwelcome.paperlib'
+    id 'com.github.johnrengelman.shadow' version '5.2.0'
 }
 
 group 'com.snowypeaksystems'
@@ -21,11 +15,16 @@ repositories {
 }
 
 dependencies {
-    implementation "io.papermc:paperlib:1.0.5"
+    implementation group: 'io.papermc', name: 'paperlib', version: '1.0.5'
     implementation group: 'com.destroystokyo.paper', name: 'paper-api', version: '1.16.1-R0.1-SNAPSHOT'
 }
 
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+shadowJar {
+    relocate 'io.papermc.lib', 'com.snowypeaksystems.randomwelcome.paperlib'
+    minimize()
 }
