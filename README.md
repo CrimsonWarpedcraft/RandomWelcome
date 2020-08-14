@@ -25,7 +25,6 @@ Below is a small table to help explain all the RandomWelcome commands and permis
 | /rw enable | randomwelcome.enable | Admin command to enable welcome messages |
 | /rw disable | randomwelcome.disable | Admin command to disable welcome messages |
 | /rw reload | randomwelcome.reload | Admin command to reload plugin config |
-| /rw reload | randomwelcome.reload | Admin command to reload plugin config |
 | | randomwelcome.welcome | Permission node to allow the player to be welcomed |
 | | randomwelcome.welcome.others | Permission node to allow the player to see other player's being welcomed |
 | | randomwelcome.* | Permission node to grant all other permissions |
